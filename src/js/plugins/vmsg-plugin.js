@@ -66,7 +66,6 @@ class VmsgEngine extends RecordEngine {
         this.config = {
             wasmURL: this.audioWebAssemblyURL
         };
-
         // extend config with optional options
         this.config = Object.assign(this.config, this.pluginLibraryOptions);
 
@@ -84,10 +83,7 @@ class VmsgEngine extends RecordEngine {
             0, 1, 1);
         this.audioSourceNode.connect(this.processor);
 
-        this.engine.initWorker().catch((err) => {
-            // invalid message received
-            this.player().trigger('error', err);
-        });
+        return this.engine.initWorker()
     }
 
     /**

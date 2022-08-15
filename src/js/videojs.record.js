@@ -615,7 +615,7 @@ class Record extends Plugin {
      * @private
      * @param {LocalMediaStream} stream - Local media stream from device.
      */
-    onDeviceReady(stream) {
+    async onDeviceReady(stream) {
         this._deviceActive = true;
 
         // stop previous stream if it is active
@@ -722,7 +722,14 @@ class Record extends Plugin {
             this.engine.pluginLibraryOptions = this.pluginLibraryOptions;
 
             // initialize recorder
-            this.engine.setup(this.stream, this.mediaType, this.debug);
+            if (engineType === 'vmsg') {
+                await this.engine.setup(this.stream, this.mediaType, this.debug).catch((err) => {
+                    this.player.trigger('error', err);
+                });
+            } else {
+                this.engine.setup(this.stream, this.mediaType, this.debug);
+            }
+
 
             // create converter engine
             if (this.convertEngine !== '') {
