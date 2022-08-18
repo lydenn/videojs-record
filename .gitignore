@@ -20,7 +20,7 @@ bower_components
 
 # Build-related
 *.log
-dist/
+dist/node_modules
 tmp
 coverage/
 .build_cache/
